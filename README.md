@@ -1,6 +1,6 @@
 # Turtle Meadow 🐢🍓
 
-A cozy beginner Python/Pygame project where a small turtle explores a meadow and collects strawberries.
+A cozy Python/Pygame game in development where a small turtle explores a meadow and collects strawberries.
 
 ## Status
 
@@ -28,7 +28,7 @@ In development.
 
 ## How to Run
 
-> **Note:** This project was developed with Python 3.13. PyGame may not install correctly with Python 3.14 on Windows, so Python 3.13 is recommended.
+> **Note:** This project was developed with Python 3.13. Pygame may not install correctly with Python 3.14 on Windows, so Python 3.13 is recommended.
 
 Install the required package:
 
@@ -40,3 +40,4 @@ Run the game:
 
 ```bash
 py -3.13 main.py
+```
