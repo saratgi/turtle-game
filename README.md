@@ -12,6 +12,7 @@ In development.
 - Player movement with WASD and arrow keys
 - Delta time movement for consistent speed
 - Screen borders to keep the turtle inside the window
+- Decorative flower sprites placed around the meadow
 
 ## Planned Features
 
@@ -19,7 +20,6 @@ In development.
 - Score counter
 - Turtle walking animation
 - Grass tile background
-- Flowers and other meadow decorations
 
 ## Built With
 
