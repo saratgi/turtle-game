@@ -28,10 +28,6 @@ turtle_image = pygame.transform.scale(turtle_image, (TURTLE_SIZE, TURTLE_SIZE))
 # Turtle movement settings
 turtle_speed = 300
 
-# Starting turtle position
-turtle_x = 400
-turtle_y = 260
-
 # Decorative flower positions
 white_flower_positions = [
     (80, 120),
@@ -49,6 +45,10 @@ pink_flower_positions = [
 # Turtle dimensions used for screen border limits
 turtle_width = turtle_image.get_width()
 turtle_height = turtle_image.get_height()
+
+# Start turtle in the ceenter of the window
+turtle_x = (WIDTH - turtle_width) / 2
+turtle_y = (HEIGHT - turtle_height) / 2
 
 # Game state and clock
 running = True
