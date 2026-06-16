@@ -2,6 +2,10 @@
 
 A cozy Python/Pygame game in development where a small turtle explores a meadow and collects strawberries.
 
+## Current Preview
+
+![Turtle Meadow gameplay preview](media/current-preview.gif)
+
 ## Status
 
 In development. 

@@ -51,6 +51,7 @@ pink_flower_positions = [
     (350, 70)
 ]
 
+# Grass tile dimensions used for background tiling
 grass_tile_width = grass_tile_image.get_width()
 grass_tile_height = grass_tile_image.get_height()
 
@@ -67,6 +68,7 @@ strawberry_rect = strawberry_image.get_rect(topleft=(700, 400))
 
 # Game state and clock
 score = 0
+
 running = True
 
 clock = pygame.time.Clock()
