@@ -1,4 +1,5 @@
 import pygame
+import random
 
 pygame.init()
 
@@ -61,13 +62,17 @@ turtle_height = turtle_image.get_height()
 turtle_x = (WIDTH - turtle_width) / 2
 turtle_y = (HEIGHT - turtle_height) / 2
 
-# Strawberry position and collision box
+# Strawberry position and hitbox
 strawberry_rect = strawberry_image.get_rect(topleft=(700, 400))
 
 # Game state and clock
+score = 0
 running = True
 
 clock = pygame.time.Clock()
+
+# Font for score display
+score_font = pygame.font.Font(None, 36)
 
 # Main game loop
 while running:
@@ -99,6 +104,22 @@ while running:
     turtle_x = max(0, min(turtle_x, WIDTH - turtle_width))
     turtle_y = max(0, min(turtle_y, HEIGHT - turtle_height))
 
+    # Create turtle hitbox at current position
+    turtle_rect = turtle_image.get_rect(topleft=(round(turtle_x), round(turtle_y)))
+
+    # Smaller hitboxes for more accurate collision
+    turtle_hitbox = turtle_rect.inflate(-50, -50)
+    strawberry_hitbox = strawberry_rect.inflate(-16, -16)
+
+    # Collect strawberry
+    if turtle_hitbox.colliderect(strawberry_hitbox):
+        score += 1
+
+        strawberry_rect.topleft = (
+            random.randint(0, WIDTH - strawberry_rect.width),
+            random.randint(0, HEIGHT - strawberry_rect.height)
+        )
+
     # Draw everything in layer order
     # Fill base background color
     screen.fill((142, 215, 144))
@@ -119,7 +140,11 @@ while running:
     screen.blit(strawberry_image, strawberry_rect)
 
     # Draw turtle on top of decorations
-    screen.blit(turtle_image, (round(turtle_x), round(turtle_y)))
+    screen.blit(turtle_image, turtle_rect)
+
+    # Draw score
+    score_text = score_font.render(f"Score: {score}", True, (98, 65, 65))
+    screen.blit(score_text, (28, 15))
 
     # Update the visible game window
     pygame.display.update()

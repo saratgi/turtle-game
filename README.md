@@ -8,18 +8,30 @@ In development.
 
 ## Current Features 
 
-- Custom pixel-art turtle sprite 
-- Player movement with WASD and arrow keys
+- Custom pixel-art game assets
+- Keyboard movement with WASD and arrow keys
 - Delta time movement for consistent speed
 - Screen borders to keep the turtle inside the window
-- Grass tile background
-- Decorative flower sprites placed around the meadow
+- Tiled grass background with decorative flowers
+- Strawberry collection with random respawn
+- Score tracking displayed in the game window
 
 ## Planned Features
 
-- Strawberry collectibles
-- Score counter
-- Turtle walking animation
+- Turtle walking and turning animation
+- Movement polish for consistent diagonal speed
+- Improved strawberry respawn placement
+- Interactive flower movement
+
+## What I'm Learning
+
+- Structuring a simple Pygame game loop
+- Loading, scaling and drawing custom pixel-art assets
+- Drawing sprites in the correct layer order
+- Using delta time for smoother movement
+- Working with Rect objects, hitboxes, and collision detection
+- Using random positions for collectible respawns
+- Rendering score text with Pygame fonts
 
 ## Built With
 
