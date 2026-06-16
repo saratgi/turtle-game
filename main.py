@@ -10,10 +10,11 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 pygame.display.set_caption("Turtle Meadow")
 
-# Image sizes
+# Constant image sizes
 TURTLE_SIZE = 112
 FLOWER_SIZE = 64
 STRAWBERRY_SIZE = 48
+GRASS_TILE_SIZE = 64
 
 # Load and scale images before loop
 white_flower_image = pygame.image.load("assets/white-flower.png").convert_alpha()
@@ -21,6 +22,10 @@ white_flower_image = pygame.transform.scale(white_flower_image, (FLOWER_SIZE, FL
 
 pink_flower_image = pygame.image.load("assets/pink-flower.png").convert_alpha()
 pink_flower_image = pygame.transform.scale(pink_flower_image, (FLOWER_SIZE, FLOWER_SIZE))
+
+grass_tile_image = pygame.image.load("assets/grass-tile.png").convert()
+grass_tile_image = pygame.transform.scale(grass_tile_image, (GRASS_TILE_SIZE, GRASS_TILE_SIZE))
+
 
 turtle_image = pygame.image.load("assets/turtle.png").convert_alpha()
 turtle_image = pygame.transform.scale(turtle_image, (TURTLE_SIZE, TURTLE_SIZE))
@@ -33,6 +38,7 @@ white_flower_positions = [
     (80, 120),
     (720, 90),
     (300, 500),
+    (590, 560)
 ]
 
 pink_flower_positions = [
@@ -42,11 +48,14 @@ pink_flower_positions = [
     (350, 70)
 ]
 
+grass_tile_width = grass_tile_image.get_width()
+grass_tile_height = grass_tile_image.get_height()
+
 # Turtle dimensions used for screen border limits
 turtle_width = turtle_image.get_width()
 turtle_height = turtle_image.get_height()
 
-# Start turtle in the ceenter of the window
+# Start turtle in the center of the window
 turtle_x = (WIDTH - turtle_width) / 2
 turtle_y = (HEIGHT - turtle_height) / 2
 
@@ -87,6 +96,11 @@ while running:
 
     # Draw background, decorations, and turtle
     screen.fill((142, 215, 144))
+
+    # Draw grass tile background
+    for x in range(0, WIDTH, grass_tile_width):
+        for y in range(0, HEIGHT, grass_tile_height):
+            screen.blit(grass_tile_image, (x, y))
 
     # Draw flowers
     for position in pink_flower_positions:
