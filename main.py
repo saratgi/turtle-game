@@ -26,6 +26,8 @@ pink_flower_image = pygame.transform.scale(pink_flower_image, (FLOWER_SIZE, FLOW
 grass_tile_image = pygame.image.load("assets/grass-tile.png").convert()
 grass_tile_image = pygame.transform.scale(grass_tile_image, (GRASS_TILE_SIZE, GRASS_TILE_SIZE))
 
+strawberry_image = pygame.image.load("assets/strawberry.png").convert_alpha()
+strawberry_image = pygame.transform.scale(strawberry_image, (STRAWBERRY_SIZE, STRAWBERRY_SIZE))
 
 turtle_image = pygame.image.load("assets/turtle.png").convert_alpha()
 turtle_image = pygame.transform.scale(turtle_image, (TURTLE_SIZE, TURTLE_SIZE))
@@ -58,6 +60,9 @@ turtle_height = turtle_image.get_height()
 # Start turtle in the center of the window
 turtle_x = (WIDTH - turtle_width) / 2
 turtle_y = (HEIGHT - turtle_height) / 2
+
+# Strawberry position and collision box
+strawberry_rect = strawberry_image.get_rect(topleft=(700, 400))
 
 # Game state and clock
 running = True
@@ -94,7 +99,8 @@ while running:
     turtle_x = max(0, min(turtle_x, WIDTH - turtle_width))
     turtle_y = max(0, min(turtle_y, HEIGHT - turtle_height))
 
-    # Draw background, decorations, and turtle
+    # Draw everything in layer order
+    # Fill base background color
     screen.fill((142, 215, 144))
 
     # Draw grass tile background
@@ -108,6 +114,9 @@ while running:
 
     for position in white_flower_positions:
         screen.blit(white_flower_image, position)
+
+    # Draw strawberry
+    screen.blit(strawberry_image, strawberry_rect)
 
     # Draw turtle on top of decorations
     screen.blit(turtle_image, (round(turtle_x), round(turtle_y)))
