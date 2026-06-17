@@ -19,11 +19,11 @@ In development.
 - Tiled grass background with decorative flowers
 - Strawberry collection with random respawn
 - Score tracking displayed in the game window
+- Consistent movement in all directions
 
 ## Planned Features
 
 - Turtle walking and turning animation
-- Movement polish for consistent diagonal speed
 - Improved strawberry respawn placement
 - Interactive flower movement
 

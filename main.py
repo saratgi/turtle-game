@@ -89,18 +89,27 @@ while running:
     # Check which keys are currently being held down
     keys = pygame.key.get_pressed()
 
-    # Move turtle with WASD or arrow keys
+    # Get movement direction
+    movement = pygame.Vector2(0, 0)
+
     if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-        turtle_x -= turtle_speed * delta_time
+        movement.x -= 1
 
     if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-        turtle_x += turtle_speed * delta_time
+        movement.x += 1
 
     if keys[pygame.K_w] or keys[pygame.K_UP]:
-        turtle_y -= turtle_speed * delta_time
+        movement.y -= 1
     
     if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-        turtle_y += turtle_speed * delta_time
+        movement.y += 1
+
+    # Normalize movement so diagonal movement is not faster
+    if movement.length() > 0:
+        movement = movement.normalize()
+
+        turtle_x += movement.x * turtle_speed * delta_time
+        turtle_y += movement.y * turtle_speed * delta_time
 
     # Keep turtle inside the window
     turtle_x = max(0, min(turtle_x, WIDTH - turtle_width))
