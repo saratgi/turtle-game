@@ -12,7 +12,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Turtle Meadow")
 
 # Constant image sizes
-TURTLE_SIZE = 112
+TURTLE_SIZE = 128
 FLOWER_SIZE = 64
 STRAWBERRY_SIZE = 48
 GRASS_TILE_SIZE = 64
@@ -30,8 +30,15 @@ grass_tile_image = pygame.transform.scale(grass_tile_image, (GRASS_TILE_SIZE, GR
 strawberry_image = pygame.image.load("assets/strawberry.png").convert_alpha()
 strawberry_image = pygame.transform.scale(strawberry_image, (STRAWBERRY_SIZE, STRAWBERRY_SIZE))
 
-turtle_image = pygame.image.load("assets/turtle.png").convert_alpha()
-turtle_image = pygame.transform.scale(turtle_image, (TURTLE_SIZE, TURTLE_SIZE))
+# Create right- and left-facing turtle images
+turtle_image_right = pygame.image.load("assets/turtle.png").convert_alpha()
+turtle_image_right = pygame.transform.scale(turtle_image_right, (TURTLE_SIZE, TURTLE_SIZE))
+
+# Flip horizontally to create the left-facing version
+turtle_image_left = pygame.transform.flip(turtle_image_right, True, False)
+
+# Turtle starts facing right
+turtle_image = turtle_image_right
 
 # Turtle movement settings
 turtle_speed = 300
@@ -103,6 +110,12 @@ while running:
     
     if keys[pygame.K_s] or keys[pygame.K_DOWN]:
         movement.y += 1
+
+    # Update turtle facing direction
+    if movement.x < 0:
+        turtle_image = turtle_image_left
+    elif movement.x > 0:
+        turtle_image = turtle_image_right
 
     # Normalize movement so diagonal movement is not faster
     if movement.length() > 0:

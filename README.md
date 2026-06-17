@@ -20,10 +20,11 @@ In development.
 - Strawberry collection with random respawn
 - Score tracking displayed in the game window
 - Consistent movement in all directions
+- Turtle turns left and right based on movement direction
 
 ## Planned Features
 
-- Turtle walking and turning animation
+- Turtle walking animation
 - Improved strawberry respawn placement
 - Interactive flower movement
 
