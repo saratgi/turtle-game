@@ -21,10 +21,10 @@ In development.
 - Score tracking displayed in the game window
 - Consistent movement in all directions
 - Turtle turns left and right based on movement direction
+- Turtle walking animation while moving
 
 ## Planned Features
 
-- Turtle walking animation
 - Improved strawberry respawn placement
 - Interactive flower movement
 
@@ -34,6 +34,9 @@ In development.
 - Loading, scaling and drawing custom pixel-art assets
 - Drawing sprites in the correct layer order
 - Using delta time for smoother movement
+- Using Pygame Vector2 for normalized movement
+- Using an animation timer to switch frames while moving
+- Flipping sprites to reuse animation frames for left and right movement
 - Working with Rect objects, hitboxes, and collision detection
 - Using random positions for collectible respawns
 - Rendering score text with Pygame fonts
