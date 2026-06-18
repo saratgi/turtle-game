@@ -30,15 +30,23 @@ grass_tile_image = pygame.transform.scale(grass_tile_image, (GRASS_TILE_SIZE, GR
 strawberry_image = pygame.image.load("assets/strawberry.png").convert_alpha()
 strawberry_image = pygame.transform.scale(strawberry_image, (STRAWBERRY_SIZE, STRAWBERRY_SIZE))
 
-# Create right- and left-facing turtle images
-turtle_image_right = pygame.image.load("assets/turtle.png").convert_alpha()
-turtle_image_right = pygame.transform.scale(turtle_image_right, (TURTLE_SIZE, TURTLE_SIZE))
+# Load right-facing turtle animation frames
+turtle_frames_right = [
+    pygame.transform.scale(
+        pygame.image.load(path).convert_alpha(),
+        (TURTLE_SIZE, TURTLE_SIZE)
+    )
+    for path in ["assets/turtle-idle.png", "assets/turtle-walk.png"]
+]
 
-# Flip horizontally to create the left-facing version
-turtle_image_left = pygame.transform.flip(turtle_image_right, True, False)
+# Create left-facing turtle animation frames
+turtle_frames_left = [
+    pygame.transform.flip(frame, True, False)
+    for frame in turtle_frames_right
+]
 
-# Turtle starts facing right
-turtle_image = turtle_image_right
+# Turtle starts in idle frame, facing right
+turtle_image = turtle_frames_right[0]
 
 # Turtle movement settings
 turtle_speed = 300
@@ -83,6 +91,12 @@ clock = pygame.time.Clock()
 # Font for score display
 score_font = pygame.font.Font(None, 36)
 
+# Turtle animation settings
+turtle_frames = turtle_frames_right
+animation_index = 0
+animation_timer = 0
+animation_speed = 0.2
+
 # Main game loop
 while running:
     # Handle window events
@@ -113,9 +127,23 @@ while running:
 
     # Update turtle facing direction
     if movement.x < 0:
-        turtle_image = turtle_image_left
+        turtle_frames = turtle_frames_left
     elif movement.x > 0:
-        turtle_image = turtle_image_right
+        turtle_frames = turtle_frames_right
+
+    # Animate turtle while moving
+    if movement.length() > 0:
+        animation_timer += delta_time
+
+        if animation_timer >= animation_speed:
+            animation_timer = 0
+            animation_index = (animation_index + 1) % len(turtle_frames)
+
+        turtle_image = turtle_frames[animation_index]
+    else:
+        animation_index = 0
+        animation_timer = 0
+        turtle_image = turtle_frames[0]
 
     # Normalize movement so diagonal movement is not faster
     if movement.length() > 0:
