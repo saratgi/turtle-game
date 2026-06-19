@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 pygame.init()
 
@@ -51,19 +52,17 @@ turtle_image = turtle_frames_right[0]
 # Turtle movement settings
 turtle_speed = 300
 
-# Decorative flower positions
-white_flower_positions = [
-    (80, 120),
-    (720, 90),
-    (300, 500),
-    (590, 560)
-]
+# Decorative flowers
+flowers = [
+    {"image": white_flower_image, "position": (80, 120), "sway_timer": 0},
+    {"image": white_flower_image, "position": (720, 90), "sway_timer": 0},
+    {"image": white_flower_image, "position": (300, 500), "sway_timer": 0},
+    {"image": white_flower_image, "position": (590, 560), "sway_timer": 0},
 
-pink_flower_positions = [
-    (80, 410),
-    (600, 360),
-    (820, 520),
-    (350, 70)
+    {"image": pink_flower_image, "position": (80, 410), "sway_timer": 0},
+    {"image": pink_flower_image, "position": (600, 360), "sway_timer": 0},
+    {"image": pink_flower_image, "position": (820, 520), "sway_timer": 0},
+    {"image": pink_flower_image, "position": (350, 70), "sway_timer": 0},
 ]
 
 # Grass tile dimensions used for background tiling
@@ -163,6 +162,17 @@ while running:
     turtle_hitbox = turtle_rect.inflate(-50, -50)
     strawberry_hitbox = strawberry_rect.inflate(-16, -16)
 
+    # Trigger flower sway when turtle touches a flower
+    for flower in flowers:
+        flower_rect = flower["image"].get_rect(topleft=flower["position"])
+        flower_hitbox = flower_rect.inflate(-20, -20)
+
+        if turtle_hitbox.colliderect(flower_hitbox):
+            flower["sway_timer"] = 0.4
+
+        if flower["sway_timer"] > 0:
+            flower["sway_timer"] -= delta_time
+
     # Collect strawberry
     if turtle_hitbox.colliderect(strawberry_hitbox):
         score += 1
@@ -182,11 +192,14 @@ while running:
             screen.blit(grass_tile_image, (x, y))
 
     # Draw flowers
-    for position in pink_flower_positions:
-        screen.blit(pink_flower_image, position)
+    for flower in flowers:
+        x, y = flower["position"]
 
-    for position in white_flower_positions:
-        screen.blit(white_flower_image, position)
+        sway_offset = 0
+        if flower["sway_timer"] > 0:
+            sway_offset = math.sin(flower["sway_timer"] * 30) * 2
+
+        screen.blit(flower["image"], (round(x + sway_offset), y))
 
     # Draw strawberry
     screen.blit(strawberry_image, strawberry_rect)

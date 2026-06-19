@@ -19,26 +19,27 @@ In development.
 - Tiled grass background with decorative flowers
 - Strawberry collection with random respawn
 - Score tracking displayed in the game window
-- Consistent movement in all directions
+- Consistent movement speed in all directions
 - Turtle turns left and right based on movement direction
 - Turtle walking animation while moving
+- Flowers gently sway when touched by the turtle
 
 ## Planned Features
 
 - Improved strawberry respawn placement
-- Interactive flower movement
+- Small story details
 
 ## What I'm Learning
 
 - Structuring a simple Pygame game loop
-- Loading, scaling and drawing custom pixel-art assets
+- Loading, scaling, and drawing custom pixel-art assets
 - Drawing sprites in the correct layer order
-- Using delta time for smoother movement
-- Using Pygame Vector2 for normalized movement
-- Using an animation timer to switch frames while moving
+- Using delta time and Pygame Vector2 for smoother, normalized movement
+- Creating simple sprite animations with frame lists and timers
 - Flipping sprites to reuse animation frames for left and right movement
-- Working with Rect objects, hitboxes, and collision detection
-- Using random positions for collectible respawns
+- Using timers and math.sin to create temporary visual effects
+- Storing multiple game objects as dictionaries inside a list
+- Working with Rect objects, hitboxes, collision detection, and random respawns
 - Rendering score text with Pygame fonts
 
 ## Built With
