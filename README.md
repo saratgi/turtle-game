@@ -17,16 +17,16 @@ In development.
 - Delta time movement for consistent speed
 - Screen borders to keep the turtle inside the window
 - Tiled grass background with decorative flowers
-- Strawberry collection with random respawn
+- Strawberry collection with improved random respawn placement
 - Score tracking displayed in the game window
 - Consistent movement speed in all directions
 - Turtle turns left and right based on movement direction
 - Turtle walking animation while moving
 - Flowers gently sway when touched by the turtle
 
+
 ## Planned Features
 
-- Improved strawberry respawn placement
 - Small story details
 
 ## What I'm Learning
@@ -41,6 +41,8 @@ In development.
 - Storing multiple game objects as dictionaries inside a list
 - Working with Rect objects, hitboxes, collision detection, and random respawns
 - Rendering score text with Pygame fonts
+- Using a helper function to generate valid strawberry spawn positions
+- Using a while loop to retry random positions until they are valid
 
 ## Built With
 

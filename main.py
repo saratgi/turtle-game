@@ -65,6 +65,36 @@ flowers = [
     {"image": pink_flower_image, "position": (350, 70), "sway_timer": 0},
 ]
 
+# Create a strawberry at a valid random position
+# Avoids flowers and avoids the turtle if a turtle hitbox is provided
+def create_strawberry_rect(turtle_hitbox=None):
+    while True:
+        new_strawberry_rect = strawberry_image.get_rect(
+            topleft=(
+                random.randint(0, WIDTH - strawberry_image.get_width()),
+                random.randint(0, HEIGHT - strawberry_image.get_height())
+            )
+        )
+        
+        new_strawberry_hitbox = new_strawberry_rect.inflate(-16, -16)
+
+        overlaps_flower = False
+        for flower in flowers:
+            flower_rect = flower["image"].get_rect(topleft=flower["position"])
+            flower_hitbox = flower_rect.inflate(-20, -20)
+
+            if new_strawberry_hitbox.colliderect(flower_hitbox):
+                overlaps_flower = True
+                break
+        
+        overlaps_turtle = (
+            turtle_hitbox is not None
+            and new_strawberry_hitbox.colliderect(turtle_hitbox)
+        )
+
+        if not overlaps_flower and not overlaps_turtle:
+            return new_strawberry_rect
+
 # Grass tile dimensions used for background tiling
 grass_tile_width = grass_tile_image.get_width()
 grass_tile_height = grass_tile_image.get_height()
@@ -77,8 +107,12 @@ turtle_height = turtle_image.get_height()
 turtle_x = (WIDTH - turtle_width) / 2
 turtle_y = (HEIGHT - turtle_height) / 2
 
+# Create initial turtle hitbox so the first strawberry does not spawn on the turtle
+initial_turtle_rect = turtle_image.get_rect(topleft=(round(turtle_x), round(turtle_y)))
+initial_turtle_hitbox = initial_turtle_rect.inflate(-50, -50)
+
 # Strawberry position and hitbox
-strawberry_rect = strawberry_image.get_rect(topleft=(700, 400))
+strawberry_rect = create_strawberry_rect(initial_turtle_hitbox)
 
 # Game state and clock
 score = 0
@@ -177,10 +211,7 @@ while running:
     if turtle_hitbox.colliderect(strawberry_hitbox):
         score += 1
 
-        strawberry_rect.topleft = (
-            random.randint(0, WIDTH - strawberry_rect.width),
-            random.randint(0, HEIGHT - strawberry_rect.height)
-        )
+        strawberry_rect = create_strawberry_rect(turtle_hitbox)
 
     # Draw everything in layer order
     # Fill base background color
