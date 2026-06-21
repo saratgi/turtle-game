@@ -17,6 +17,10 @@ TURTLE_SIZE = 128
 FLOWER_SIZE = 64
 STRAWBERRY_SIZE = 48
 GRASS_TILE_SIZE = 64
+PICNIC_BASKET_SIZE = 128
+
+# Constant for quest goal
+STRAWBERRY_GOAL = 10
 
 # Load and scale images before loop
 white_flower_image = pygame.image.load("assets/white-flower.png").convert_alpha()
@@ -30,6 +34,9 @@ grass_tile_image = pygame.transform.scale(grass_tile_image, (GRASS_TILE_SIZE, GR
 
 strawberry_image = pygame.image.load("assets/strawberry.png").convert_alpha()
 strawberry_image = pygame.transform.scale(strawberry_image, (STRAWBERRY_SIZE, STRAWBERRY_SIZE))
+
+picnic_basket_image = pygame.image.load("assets/picnic-basket.png").convert_alpha()
+picnic_basket_image = pygame.transform.scale(picnic_basket_image, (PICNIC_BASKET_SIZE, PICNIC_BASKET_SIZE))
 
 # Load right-facing turtle animation frames
 turtle_frames_right = [
@@ -65,6 +72,14 @@ flowers = [
     {"image": pink_flower_image, "position": (350, 70), "sway_timer": 0},
 ]
 
+# Picnic basket reward position
+picnic_basket_rect = picnic_basket_image.get_rect(topleft=(800, 170))
+
+# Small shadow under the picnic basket so it feels grounded
+basket_shadow = pygame.Surface((110, 24), pygame.SRCALPHA)
+pygame.draw.ellipse(basket_shadow, (60, 80, 45, 80), basket_shadow.get_rect())
+
+
 # Create a strawberry at a valid random position
 # Avoids flowers and avoids the turtle if a turtle hitbox is provided
 def create_strawberry_rect(turtle_hitbox=None):
@@ -86,14 +101,31 @@ def create_strawberry_rect(turtle_hitbox=None):
             if new_strawberry_hitbox.colliderect(flower_hitbox):
                 overlaps_flower = True
                 break
+
+        basket_hitbox = picnic_basket_rect.inflate(-20, -20)
+        overlaps_basket = new_strawberry_hitbox.colliderect(basket_hitbox)
         
         overlaps_turtle = (
             turtle_hitbox is not None
             and new_strawberry_hitbox.colliderect(turtle_hitbox)
         )
 
-        if not overlaps_flower and not overlaps_turtle:
+        if not overlaps_flower and not overlaps_turtle and not overlaps_basket:
             return new_strawberry_rect
+
+# Create a quest message based on the current score
+def get_quest_message(score):
+    if score == 0:
+        return f"Quest: collect {STRAWBERRY_GOAL} strawberries for the meadow picnic."
+    elif score < STRAWBERRY_GOAL - 1:
+        return f"Basket: {score}/{STRAWBERRY_GOAL} strawberries collected."
+    elif score < STRAWBERRY_GOAL:
+        return f"Basket: {score}/{STRAWBERRY_GOAL} strawberries collected. Almost ready."
+    elif score == STRAWBERRY_GOAL:
+        return "Picnic basket complete! Extra strawberries unlocked."
+    else:
+        return f"Picnic basket complete! Extra strawberries: {score - STRAWBERRY_GOAL}"
+
 
 # Grass tile dimensions used for background tiling
 grass_tile_width = grass_tile_image.get_width()
@@ -117,12 +149,29 @@ strawberry_rect = create_strawberry_rect(initial_turtle_hitbox)
 # Game state and clock
 score = 0
 
+reward_popup_visible = False
+basket_obtained = False
+
 running = True
 
 clock = pygame.time.Clock()
 
 # Font for score display
 score_font = pygame.font.Font(None, 36)
+
+# Font for quest message
+quest_font = pygame.font.Font(None, 24)
+
+# Font for reward pop-up
+reward_font = pygame.font.Font(None, 48)
+button_font = pygame.font.Font(None, 30)
+
+# Reward pop-up and button rectangles
+reward_popup_rect = pygame.Rect(0, 0, 560, 320)
+reward_popup_rect.center = (WIDTH // 2, HEIGHT // 2)
+
+claim_button_rect = pygame.Rect(0, 0, 190, 44)
+claim_button_rect.center = (WIDTH // 2, HEIGHT // 2 + 110)
 
 # Turtle animation settings
 turtle_frames = turtle_frames_right
@@ -136,6 +185,11 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if reward_popup_visible and claim_button_rect.collidepoint(event.pos):
+                reward_popup_visible = False
+                basket_obtained = True
 
     # Time since last frame, used for smooth movement
     delta_time = clock.tick(60) / 1000
@@ -208,8 +262,11 @@ while running:
             flower["sway_timer"] -= delta_time
 
     # Collect strawberry
-    if turtle_hitbox.colliderect(strawberry_hitbox):
+    if not reward_popup_visible and turtle_hitbox.colliderect(strawberry_hitbox):
         score += 1
+
+        if score == STRAWBERRY_GOAL and not basket_obtained:
+            reward_popup_visible = True
 
         strawberry_rect = create_strawberry_rect(turtle_hitbox)
 
@@ -232,6 +289,11 @@ while running:
 
         screen.blit(flower["image"], (round(x + sway_offset), y))
 
+    # Draw picnic basket reward after claiming it
+    if basket_obtained:
+        screen.blit(basket_shadow, (picnic_basket_rect.x + 9, picnic_basket_rect.bottom - 18))
+        screen.blit(picnic_basket_image, picnic_basket_rect)
+
     # Draw strawberry
     screen.blit(strawberry_image, strawberry_rect)
 
@@ -239,8 +301,41 @@ while running:
     screen.blit(turtle_image, turtle_rect)
 
     # Draw score
-    score_text = score_font.render(f"Score: {score}", True, (98, 65, 65))
+    score_text = score_font.render(f"Strawberries: {score}", True, (98, 65, 65))
     screen.blit(score_text, (28, 15))
+
+    # Draw cozy quest message
+    quest_message = get_quest_message(score)
+    quest_text = quest_font.render(quest_message, True, (98, 65, 65))
+    screen.blit(quest_text, (28, 52))
+
+    # Draw reward pop-up
+    if reward_popup_visible:
+        dim_surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+        dim_surface.fill((0, 0, 0, 90))
+        screen.blit(dim_surface, (0, 0))
+
+        pygame.draw.rect(screen, (255, 239, 191), reward_popup_rect, border_radius=18)
+        pygame.draw.rect(screen, (98, 65, 65), reward_popup_rect, 4, border_radius=18)
+
+        reward_title = reward_font.render("Quest completed!", True, (98, 65, 65))
+        reward_subtitle = quest_font.render("Picnic basket unlocked.", True, (98, 65, 65))
+
+        reward_title_rect = reward_title.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 105))
+        reward_subtitle_rect = reward_subtitle.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 50))
+
+        basket_preview_rect = picnic_basket_image.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 25))
+
+        screen.blit(reward_title, reward_title_rect)
+        screen.blit(picnic_basket_image, basket_preview_rect)
+        screen.blit(reward_subtitle, reward_subtitle_rect)
+
+        pygame.draw.rect(screen, (167, 206, 167), claim_button_rect, border_radius=10)
+        pygame.draw.rect(screen, (98, 65, 65), claim_button_rect, 3, border_radius=10)
+
+        button_text = button_font.render("Claim Basket", True, (98, 65, 65))
+        button_text_rect = button_text.get_rect(center=claim_button_rect.center)
+        screen.blit(button_text, button_text_rect)
 
     # Update the visible game window
     pygame.display.update()

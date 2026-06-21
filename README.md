@@ -8,7 +8,7 @@ A cozy Python/Pygame game in development where a small turtle explores a meadow 
 
 ## Status
 
-In development. 
+First playable version complete.
 
 ## Current Features 
 
@@ -18,16 +18,14 @@ In development.
 - Screen borders to keep the turtle inside the window
 - Tiled grass background with decorative flowers
 - Strawberry collection with improved random respawn placement
-- Score tracking displayed in the game window
+- Strawberry counter displayed in the game window
 - Consistent movement speed in all directions
 - Turtle turns left and right based on movement direction
 - Turtle walking animation while moving
 - Flowers gently sway when touched by the turtle
-
-
-## Planned Features
-
-- Small story details
+- Cozy quest progress messages
+- Quest completion reward pop-up with a claim button
+- Picnic basket reward after completing the strawberry goal
 
 ## What I'm Learning
 
@@ -40,9 +38,12 @@ In development.
 - Using timers and math.sin to create temporary visual effects
 - Storing multiple game objects as dictionaries inside a list
 - Working with Rect objects, hitboxes, collision detection, and random respawns
-- Rendering score text with Pygame fonts
+- Rendering strawberry counter and quest text with Pygame fonts
 - Using a helper function to generate valid strawberry spawn positions
 - Using a while loop to retry random positions until they are valid
+- Handling mouse clicks with Rect.collidepoint
+- Using game state variables for reward pop-ups and unlockable items 
+- Drawing a simple in-game reward pop-up with rectangles and transparency
 
 ## Built With
 
