@@ -38,6 +38,11 @@ strawberry_image = pygame.transform.scale(strawberry_image, (STRAWBERRY_SIZE, ST
 picnic_basket_image = pygame.image.load("assets/picnic-basket.png").convert_alpha()
 picnic_basket_image = pygame.transform.scale(picnic_basket_image, (PICNIC_BASKET_SIZE, PICNIC_BASKET_SIZE))
 
+# Load and play background music
+pygame.mixer.music.load("assets/background-music.ogg")
+pygame.mixer.music.set_volume(0.2)
+pygame.mixer.music.play(-1)
+
 # Load right-facing turtle animation frames
 turtle_frames_right = [
     pygame.transform.scale(

@@ -26,6 +26,7 @@ First playable version complete.
 - Cozy quest progress messages
 - Quest completion reward pop-up with a claim button
 - Picnic basket reward after completing the strawberry goal
+- Cozy background music
 
 ## What I'm Learning
 
