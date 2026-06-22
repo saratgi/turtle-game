@@ -1,6 +1,6 @@
 # Turtle Meadow 🐢🍓
 
-A cozy Python/Pygame game in development where a small turtle explores a meadow and collects strawberries.
+A cozy Python/Pygame mini-game where a small turtle explores a meadow, collects strawberries, and unlocks a picnic basket as a quest reward.
 
 ## Current Preview
 
@@ -10,25 +10,27 @@ A cozy Python/Pygame game in development where a small turtle explores a meadow 
 
 First playable version complete.
 
-## Current Features 
+## Gameplay
+
+Use **WASD** or the **arrow keys** to guide the turtle through the meadow. Collect **10 strawberries** to unlock the picnic basket reward, then click **Claim Basket** to place it in the meadow. Extra strawberries can still be collected after the quest is complete.
+
+## Features 
 
 - Custom pixel-art game assets
-- Keyboard movement with WASD and arrow keys
-- Delta time movement for consistent speed
-- Screen borders to keep the turtle inside the window
 - Tiled grass background with decorative flowers
-- Strawberry collection with improved random respawn placement
-- Strawberry counter displayed in the game window
-- Consistent movement speed in all directions
-- Turtle turns left and right based on movement direction
+- Smooth keyboard movement with delta time
+- Normalized diagonal movement for consistent speed
+- Screen borders to keep the turtle inside the window
+- Turtle direction changes based on movement
 - Turtle walking animation while moving
-- Flowers gently sway when touched by the turtle
-- Cozy quest progress messages
+- Strawberry collection with improved random respawn placement
+- Strawberry counter and cozy quest progress messages
+- Flowers sway when touched by the turtle
 - Quest completion reward pop-up with a claim button
 - Picnic basket reward after completing the strawberry goal
 - Cozy background music
 
-## What I'm Learning
+## What I Learned
 
 - Structuring a simple Pygame game loop
 - Loading, scaling, and drawing custom pixel-art assets
@@ -39,9 +41,8 @@ First playable version complete.
 - Using timers and math.sin to create temporary visual effects
 - Storing multiple game objects as dictionaries inside a list
 - Working with Rect objects, hitboxes, collision detection, and random respawns
-- Rendering strawberry counter and quest text with Pygame fonts
+- Rendering strawberry counter and quest messages with Pygame fonts
 - Using a helper function to generate valid strawberry spawn positions
-- Using a while loop to retry random positions until they are valid
 - Handling mouse clicks with Rect.collidepoint
 - Using game state variables for reward pop-ups and unlockable items 
 - Drawing a simple in-game reward pop-up with rectangles and transparency
